@@ -13,7 +13,7 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'testkey'
-    app.config['DATABASE_URI'] = 'postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}'.format(
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}'.format(
         DB_NAME = "postgres.db",
         DB_PASS = "16S1A2Q64OGQF8A7$",
         DB_USER = "fyrzfivvbn",
