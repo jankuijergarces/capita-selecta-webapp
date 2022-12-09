@@ -4,13 +4,21 @@ from os import path
 from flask_login import LoginManager
 
 db = SQLAlchemy()
-DB_NAME = "database.db"
+# DB_NAME = "database.db"
+# DB_PASS = "16S1A2Q64OGQF8A7$"
+# DB_USER = "fyrzfivvbn"
+# DB_HOST = "capita-selecta-webapp-db-server.postgres.database.azure.com"
 
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'testkey'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['DATABASE_URI'] = 'postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}'.format(
+        DB_NAME = "postgres.db",
+        DB_PASS = "16S1A2Q64OGQF8A7$",
+        DB_USER = "fyrzfivvbn",
+        DB_HOST = "capita-selecta-webapp-db-server.postgres.database.azure.com"
+    )
     db.init_app(app)
 
     from .views import views
@@ -21,7 +29,7 @@ def create_app():
 
     from .models import User, Note
 
-    create_database(app)
+    # create_database(app)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
@@ -32,8 +40,8 @@ def create_app():
         return User.query.get(int(id))
     return app
 
-
+""" 
 def create_database(app):
     if not path.exists('website/' + DB_NAME):
         db.create_all(app=app)
-        print('Created Database!')
+        print('Created Database!') """
