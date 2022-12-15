@@ -13,8 +13,9 @@ def create_app():
     app = Flask(__name__)
     migrate = Migrate(db, app)
     app.config['SECRET_KEY'] = 'secretkey123'
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"postgres://{DB_USER}:{DB_PASS}$@{DB_HOST}/{DB_NAME}"  
-    db = SQLAlchemy(app)
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"postgres://{DB_USER}:{DB_PASS}$@{DB_HOST}/{DB_NAME}"
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
+    db = SQLAlchemy()
 
     from .views import views
     from .auth import auth
