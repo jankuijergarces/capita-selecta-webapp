@@ -4,13 +4,17 @@ from os import path
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
+DB_USER = 'fyrzfivvbn'
+DB_PASS = '16S1A2Q64OGQF8A7$'
+DB_HOST = 'capita-selecta-webapp-db-server.postgres.database.azure.com'
+DB_NAME = 'postgres'
 
 def create_app():
     app = Flask(__name__)
-    db = SQLAlchemy(app)
     migrate = Migrate(db, app)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://fyrzfivvbn:16S1A2Q64OGQF8A7$@capita-selecta-webapp-db-server.postgres.database.azure.com/postgres'
-    db.init_app(app)
+    app.config['SECRET_KEY'] = 'secretkey123'
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"postgres://{DB_USER}:{DB_PASS}$@{DB_HOST}/{DB_NAME}"  
+    db = SQLAlchemy(app)
 
     from .views import views
     from .auth import auth
