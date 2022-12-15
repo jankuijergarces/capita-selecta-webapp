@@ -10,13 +10,13 @@ DB_HOST = 'capita-selecta-webapp-db-server.postgres.database.azure.com'
 DB_NAME = 'postgres'
 
 db = SQLAlchemy()
-migrate = Migrate(db)
+migrate = Migrate(db)  
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'secretkey123'
     app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql+psycopg2://{DB_USER}:{DB_PASS}$@{DB_HOST}/{DB_NAME}"
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
     from .views import views
