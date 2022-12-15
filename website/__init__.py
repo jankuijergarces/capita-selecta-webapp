@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
@@ -9,13 +8,15 @@ DB_PASS = '16S1A2Q64OGQF8A7$'
 DB_HOST = 'capita-selecta-webapp-db-server.postgres.database.azure.com'
 DB_NAME = 'postgres'
 
+db = SQLAlchemy()
+migrate = Migrate(db)
+
 def create_app():
     app = Flask(__name__)
-    migrate = Migrate(db, app)
     app.config['SECRET_KEY'] = 'secretkey123'
     app.config["SQLALCHEMY_DATABASE_URI"] = f"postgres://{DB_USER}:{DB_PASS}$@{DB_HOST}/{DB_NAME}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
-    db = SQLAlchemy()
+    db.init_app(app)
 
     from .views import views
     from .auth import auth
@@ -32,5 +33,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
+
     return app
+
 
