@@ -5,7 +5,7 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 # DB_NAME = "database.db"
-# DB_PASS = "16S1A2Q64OGQF8A7$"
+DB_PASS = "16S1A2Q64OGQF8A7$"
 # DB_USER = "fyrzfivvbn"
 # DB_HOST = "capita-selecta-webapp-db-server.postgres.database.azure.com"
 
@@ -13,12 +13,7 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'testkey'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}'.format(
-        DB_NAME = "postgres.db",
-        DB_PASS = "16S1A2Q64OGQF8A7$",
-        DB_USER = "fyrzfivvbn",
-        DB_HOST = "capita-selecta-webapp-db-server.postgres.database.azure.com"
-    )
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://fyrzfivvbn:{DB_PASS}@capita-selecta-webapp-db-server.postgres.database.azure.com/postgres?sslmode=require'
     db.init_app(app)
 
     from .views import views
