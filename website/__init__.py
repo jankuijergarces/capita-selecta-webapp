@@ -2,15 +2,14 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
-# from flask_migrate import Migrate
+from flask_migrate import Migrate
 
 
 def create_app():
     app = Flask(__name__)
     db = SQLAlchemy(app)
-    # migrate = Migrate(db, app)
-    app.config['SECRET_KEY'] = 'testkey'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://fyrzfivvbn:16S1A2Q64OGQF8A7$@capita-selecta-webapp-db-server.postgres.database.azure.com/postgres?sslmode=require'
+    migrate = Migrate(db, app)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://fyrzfivvbn:16S1A2Q64OGQF8A7$@capita-selecta-webapp-db-server.postgres.database.azure.com/postgres'
     db.init_app(app)
 
     from .views import views
