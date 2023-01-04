@@ -2,7 +2,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
-import psycopg2
 
 DB_USER = 'fyrzfivvbn'
 DB_PASS = '16S1A2Q64OGQF8A7$'
