@@ -11,40 +11,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    name: Build and Run tests
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Python 3.10.4
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.10.4'
-
-    - name: Install Dependancies
-      continue-on-error: false
-      run: |
-        pip install -r requirements.txt
-
-    - name: Pytest
-      continue-on-error: false
-      run: |
-        mkdir testresults
-        pip install pytest && pytest . --junitxml=./testresults/test-results.xml && pip install pycmd && py.cleanup .
-
-    # Uploading unit test results to artifact store
-    - name: Upload unit test results to Artifact
-      continue-on-error: false
-      uses: actions/upload-artifact@v2
-      with:
-        name: UnitTestResults
-        path: ./testresults/test-results.xml
-
   build:
-    name: Build
+    name: Build and Test
     runs-on: ubuntu-latest
     needs: test
-
+    environment:
+        name: staging
+        url: ${{ steps.deploy_staging.outputs.webapp-url }}
     steps:
       - uses: actions/checkout@v2
 
@@ -60,9 +33,22 @@ jobs:
       
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
+      - name: Pytest
+        continue-on-error: false
+        run: |
+          mkdir testresults
+          pip install pytest && pytest . --junitxml=./testresults/test-results.xml && pip install pycmd && py.cleanup .
+
+      - name: Upload unit test results to Artifact
+        continue-on-error: false
+        uses: actions/upload-artifact@v2
+        with:
+          name: UnitTestResults
+          path: ./testresults/test-results.xml
+        
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v2
         with:
