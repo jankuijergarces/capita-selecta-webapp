@@ -4,7 +4,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.getcwd(), 'WebApplication'))
-from WebApplication import app
+from website import app
 
 class ViewTest(unittest.TestCase):
 
