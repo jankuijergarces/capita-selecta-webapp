@@ -29,7 +29,7 @@ jobs:
     - name: Install Dependancies
       continue-on-error: false
       run: |
-        pip install -r WebApplication/requirements.txt
+        pip install -r requirements.txt
 
     - name: Pytest
       continue-on-error: false
@@ -60,11 +60,11 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
-          python -m venv venv ./WebApplication
+          python -m venv venv
           source venv/bin/activate
       
       - name: Install dependencies
-        run: pip install -r WebApplication/requirements.txt
+        run: pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
@@ -73,7 +73,7 @@ jobs:
         with:
           name: python-app
           path: |
-            ./WebApplication 
+            . 
             !venv/
 
   deploy:
@@ -89,7 +89,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: python-app
-          path: ./WebApplication
+          path: .
           
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v1
