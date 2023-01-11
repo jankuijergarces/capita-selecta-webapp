@@ -29,7 +29,7 @@ jobs:
     - name: Install Dependancies
       continue-on-error: false
       run: |
-        pip install -r requirements.txt
+        pip install -r WebApplication/requirements.txt
 
     - name: Pytest
       continue-on-error: false
