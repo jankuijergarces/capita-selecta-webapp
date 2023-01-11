@@ -81,7 +81,7 @@ jobs:
     needs: staging
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy_production.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
