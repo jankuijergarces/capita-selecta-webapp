@@ -16,7 +16,7 @@ env:
   PYTHON_VERSION: '3.10.4' 
 
 jobs:
-    test:
+  test:
     name: Build and Run tests
     runs-on: ubuntu-latest
     steps:
