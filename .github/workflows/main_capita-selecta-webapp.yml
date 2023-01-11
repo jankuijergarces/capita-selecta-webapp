@@ -11,6 +11,35 @@ on:
   workflow_dispatch:
 
 jobs:
+  Build:
+    name: Build and Run tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install Dependancies
+      continue-on-error: false
+      run: |
+        pip install -r Application/requirements.txt
+
+    - name: Pytest
+      continue-on-error: false
+      run: |
+        mkdir testresults
+        pip install pytest && pytest Tests/unit_tests --junitxml=./testresults/test-results.xml && pip install pycmd && py.cleanup Tests/
+
+    # Uploading unit test results to artifact store
+    - name: Upload unit test results to Artifact
+      continue-on-error: false
+      uses: actions/upload-artifact@v2
+      with:
+        name: UnitTestResults
+        path: ./testresults/test-results.xml
+
   build:
     runs-on: ubuntu-latest
 
