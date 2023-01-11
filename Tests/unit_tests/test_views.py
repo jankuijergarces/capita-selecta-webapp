@@ -3,8 +3,8 @@ import unittest
 import os
 import sys
 
-sys.path.append(os.path.join(os.getcwd(), 'WebApplication'))
-from website import app
+sys.path.append(os.path.join(os.getcwd(), 'website'))
+from . import app
 
 class ViewTest(unittest.TestCase):
 
