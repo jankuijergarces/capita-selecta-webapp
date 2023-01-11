@@ -11,12 +11,10 @@ on:
   workflow_dispatch:
 
 jobs:
+  # Build and Test fase
   build:
     name: Build and Test
     runs-on: ubuntu-latest
-    environment:
-        name: staging
-        url: ${{ steps.deploy_staging.outputs.webapp-url }}
     steps:
       - uses: actions/checkout@v2
 
@@ -32,8 +30,6 @@ jobs:
       
       - name: Install dependencies
         run: pip install -r requirements.txt
-
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
       - name: Pytest
         continue-on-error: false
@@ -55,11 +51,34 @@ jobs:
           path: |
             .
             !venv/
+  # Staging fase
+  staging:
+    needs: build
+    name: Deploy to staging
+    environment:
+        name: staging
+        url: ${{ steps.deploy_staging.outputs.webapp-url }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifacts from Build and Test stage
+      uses: actions/download-artifact@v2
+      with:
+        name: python-app
+        path: .
 
+    # Deploy to App Service Linux
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v1
+      id: deploy-to-webapp
+      with:
+        app-name: 'capita-selecta'
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A25FF9F84F0F4BE59D0AB13152D99AD6 }}
+        slot-name: staging
+  # Deploying to Production stage
   deploy:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: build
+    needs: staging
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
