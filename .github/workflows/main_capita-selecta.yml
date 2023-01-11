@@ -54,7 +54,7 @@ jobs:
   # Staging fase
   staging:
     needs: build
-    name: Deploy to staging
+    name: Wait for Approval
     environment:
         name: staging
         url: ${{ steps.deploy_staging.outputs.webapp-url }}
@@ -72,8 +72,8 @@ jobs:
       id: deploy_staging
       with:
         app-name: 'capita-selecta'
+        slot-name: 'Development'
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A25FF9F84F0F4BE59D0AB13152D99AD6 }}
-        slot-name: staging
   # Deploying to Production stage
   deploy:
     name: Deploy to Production
