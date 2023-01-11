@@ -69,7 +69,7 @@ jobs:
     # Deploy to App Service Linux
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1
-      id: deploy-to-webapp
+      id: deploy_staging
       with:
         app-name: 'capita-selecta'
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A25FF9F84F0F4BE59D0AB13152D99AD6 }}
